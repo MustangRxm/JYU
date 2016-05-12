@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/ic_menu_home"/>
+        <item
+            android:id="@+id/nav_find"
+            android:icon="@drawable/ic_menu_find"
+            android:title="@string/ic_menu_find"/>
+        <item
+            android:id="@+id/nav_collect"
+            android:icon="@drawable/ic_menu_collect"
+            android:title="@string/collect"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_setting"
+            android:title="@string/settting"/>
+
+
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_shared"
+                android:title="@string/share"/>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_feedback"
+                android:title="@string/FeedBack"/>
+
+</menu>
