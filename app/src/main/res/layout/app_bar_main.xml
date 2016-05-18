@@ -2,67 +2,113 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_Main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:context="com.stu.app.jyu.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:tabIndicatorColor="#f7f3f3"
+                app:tabIndicatorHeight="5dp">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="tab1"/>
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="tab2"/>
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="tab3"/>
+                <!--<android.support.design.widget.TabItem-->
+                <!--android:text="tab4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"/>-->
+            </android.support.design.widget.TabLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!--<include layout="@layout/content_main"/>-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="50dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <android.support.v7.widget.Toolbar
-
-            android:id="@+id/toolbar"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="true"
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            app:tabIndicatorColor="#f7f3f3"
-            app:tabIndicatorHeight="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="45dp">
-            <android.support.design.widget.TabItem
-                android:text="tab1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <android.support.design.widget.TabItem
-                android:text="tab2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <android.support.design.widget.TabItem
-                android:text="tab3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <android.support.design.widget.TabItem
-                android:text="tab4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </android.support.design.widget.TabLayout>
+            app:cardUseCompatPadding="true"
+            card_view:cardCornerRadius="5dp"
+            >
 
-    </android.support.design.widget.AppBarLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-    <!--<include layout="@layout/content_main"/>-->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email"/>-->
+                <ImageView
+                    android:id="@+id/iv_bottom_sheet_pull"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/colorPrimary"
+                    android:clickable="true"
+                    android:src="@drawable/ic_sch_live_pull_up"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_sch_live_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:elevation="10dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="10dp">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

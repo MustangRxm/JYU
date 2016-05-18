@@ -12,7 +12,6 @@
     <TextView
         android:gravity="center"
         android:textSize="40sp"
-
         android:text="just a splash activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
