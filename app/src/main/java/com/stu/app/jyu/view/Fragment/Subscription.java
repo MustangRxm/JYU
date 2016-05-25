@@ -19,12 +19,28 @@ public class Subscription extends Fragment {
         // Required empty public constructor
     }
 
+//    private LinearLayoutManager linearLayoutManager;
+//
+//    private void initView() {
+//
+//        linearLayoutManager = new LinearLayoutManager(getContext());
+//        rv_subscription_app.setLayoutManager(linearLayoutManager);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_subscription, container, false);
+        View view = inflater.inflate(R.layout.fragment_subscription, container, false);
+//        bindView(view);
+//
+//        initView();
+        return view;
     }
+//private RecyclerView rv_subscription_app;
+//    private void bindView(View view) {
+//        rv_subscription_app = (RecyclerView) view.findViewById(R.id.rv_subscription_app);
+//    }
+
 
 }

@@ -20,10 +20,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.decoder.ProgressiveJpegConfig;
+import com.facebook.imagepipeline.image.QualityInfo;
 import com.stu.app.jyu.Adapter.FragmentWithViewPagerAdapter;
 import com.stu.app.jyu.Adapter.RecyclerViewAdapter;
 import com.stu.app.jyu.Domain.AppItem;
@@ -34,20 +40,22 @@ import com.stu.app.jyu.view.Fragment.SubscriptionFind;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView nav_view;
     private Toolbar toolbar;
     private TextView login;
-    FloatingActionButton fab;
-
-    DrawerLayout drawer;
-    NavigationView navigationView;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     private List<Fragment> mFragmentList;
     private List<String> mFragmentTitleList;
     private android.support.design.widget.TabLayout mTabLayout;
-    ViewPager mViewPager;
-    FragmentManager fm;
+    private ViewPager mViewPager;
+    private FragmentManager fm;
     private RecyclerView rv_sch_live_app;
     private RecyclerViewAdapter adapter;
     private List<AppItem> mAppItemList = null;
@@ -55,16 +63,37 @@ public class MainActivity extends AppCompatActivity
     private View bottomsheet;
     private BottomSheetBehavior behavior;
     private ImageView iv_bottom_sheet_pull;
+    private LinearLayout iv__bottom_sheet_pull_parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //        if()
+        //        Fresco.initialize(this);
+        Bmob.initialize(this, "06beaae856eb317097fd9381493b62ed");
         setContentView(R.layout.activity_main);
+        //EventBus.getDefault().
         initView();
         initData();
+        //        EventBus.getDefault().register(MainActivity.this);
         initEvent();
 
+    }
+    /*
+    PostThread：如果使用事件处理函数指定了线程模型为PostThread，那么该事件在哪个线程发布出来的，事件处理函数就会在这个线程中运行，也就是说发布事件和接收事件在同一个线程。在线程模型为PostThread的事件处理函数中尽量避免执行耗时操作，因为它会阻塞事件的传递，甚至有可能会引起ANR。
+    MainThread：如果使用事件处理函数指定了线程模型为MainThread，那么不论事件是在哪个线程中发布出来的，该事件处理函数都会在UI线程中执行。该方法可以用来更新UI，但是不能处理耗时操作。
+    BackgroundThread：如果使用事件处理函数指定了线程模型为BackgroundThread，那么如果事件是在UI线程中发布出来的，那么该事件处理函数就会在新的线程中运行，如果事件本来就是子线程中发布出来的，那么该事件处理函数直接在发布事件的线程中执行。在此事件处理函数中禁止进行UI更新操作。
+    Async：如果使用事件处理函数指定了线程模型为Async，那么无论事件在哪个线程发布，该事件处理函数都会在新建的子线程中执行。同样，此事件处理函数中禁止进行UI更新操作。
+    */
+    //    @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
+    //    public void getli(List li) {
+    //        for (int i = 0; i < li.size(); i++) {
+    //            Log.i("testeventbus", "li.get(i)==" + li.get(i) + " in " + Thread.currentThread());
+    //        }
+    //    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
     }
 
     private void initEvent() {
@@ -74,14 +103,6 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "please login", Toast.LENGTH_LONG).show();
             }
         });
-
-        //        fab.setOnClickListener(new View.OnClickListener() {
-        //            @Override
-        //            public void onClick(View view) {
-        //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //                        .setAction("Action", null).show();
-        //            }
-        //        });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -90,24 +111,30 @@ public class MainActivity extends AppCompatActivity
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState){
+                RotateAnimation ro1 = new RotateAnimation(0.0f, 180f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                RotateAnimation ro2 = new RotateAnimation(180f, 360f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                ro1.setFillAfter(true);
+                ro2.setFillAfter(true);
+                ro1.setDuration(200);
+                ro2.setDuration(200);
+                switch (newState) {
                     case BottomSheetBehavior.STATE_COLLAPSED:
-                        iv_bottom_sheet_pull.setImageResource(R.drawable.ic_sch_live_pull_up);
-                        Log.i("BottomSheetBehavior__",newState+"");
+                        iv_bottom_sheet_pull.startAnimation(ro2);
+                        Log.i("BottomSheetBehavior__", newState + "  STATE_COLLAPSED");
                         break;
                     case BottomSheetBehavior.STATE_DRAGGING:
-                        Log.i("BottomSheetBehavior__",newState+"");
+                        Log.i("BottomSheetBehavior__", newState + "  STATE_DRAGGING");
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
-                        iv_bottom_sheet_pull.setImageResource(R.drawable.ic_sch_live_pull_down);
-                        Log.i("BottomSheetBehavior__",newState+"");
+                        iv_bottom_sheet_pull.startAnimation(ro1);
+                        Log.i("BottomSheetBehavior__", newState + "  STATE_EXPANDED");
                         break;
                     case BottomSheetBehavior.STATE_HIDDEN:
                         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                        Log.i("BottomSheetBehavior__",newState+"");
+                        Log.i("BottomSheetBehavior__", newState + "  STATE_HIDDEN");
                         break;
                     case BottomSheetBehavior.STATE_SETTLING:
-                        Log.i("BottomSheetBehavior__",newState+"");
+                        Log.i("BottomSheetBehavior__", newState + "  STATE_SETTLING");
                         break;
                 }
             }
@@ -118,14 +145,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        iv_bottom_sheet_pull.setOnClickListener(new View.OnClickListener() {
+        iv__bottom_sheet_pull_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //                        .setAction("Action", null).show();
-                //                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                if(behavior.getState()==BottomSheetBehavior.STATE_EXPANDED){
+                if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }else {
+                } else {
                     behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
             }
@@ -145,29 +170,22 @@ public class MainActivity extends AppCompatActivity
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_library, "图书馆"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_sk_tree, "技能树"));
         adapter = new RecyclerViewAdapter(this, mAppItemList, R.layout.sch_live_app_recycleview_item);
-        //        rv_sch_live_app.setAnimation(new DefaultItemAnimator());
         rv_sch_live_app.setAdapter(adapter);
         mFragmentList = new ArrayList<>();
         mFragmentTitleList = new ArrayList<>();
-        //        mFragmentList.add(new SchoolLiveApplication());
         mFragmentList.add(new SchoolNews());
         mFragmentList.add(new Subscription());
         mFragmentList.add(new SubscriptionFind());
-        //        mFragmentTitleList.add("校园应用");
-        mFragmentTitleList.add("校园新闻");
+        mFragmentTitleList.add("校园资讯");
         mFragmentTitleList.add("订阅");
         mFragmentTitleList.add("发现");
 
         fm = getSupportFragmentManager();
         //        FragmentStatePagerAdapter 是PagerAdapter的一个子类
         FragmentWithViewPagerAdapter fwp = new FragmentWithViewPagerAdapter(fm, mFragmentList, mFragmentTitleList);
+        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(fwp);
         mTabLayout.setupWithViewPager(mViewPager);
-
-
-
-
-
 
 
     }
@@ -175,9 +193,24 @@ public class MainActivity extends AppCompatActivity
     private void initView() {
         bindView();
         nav_view.setItemIconTintList(null);//设置这个图标颜色会使用默认色，不会变成灰色
-        //        fab = (FloatingActionButton) findViewById(R.id.fab);
+
         rv_sch_live_app.setLayoutManager(new GridLayoutManager(this, 4));
-        behavior =  BottomSheetBehavior.from(bottomsheet);
+        behavior = BottomSheetBehavior.from(bottomsheet);
+        ProgressiveJpegConfig config = new ProgressiveJpegConfig() {
+            @Override
+            public int getNextScanNumberToDecode(int i) {
+                return 0;
+            }
+
+            @Override
+            public QualityInfo getQualityInfo(int i) {
+                return null;
+            }
+        };
+        ImagePipelineConfig imagePipelineConfig = ImagePipelineConfig.newBuilder(this)
+                .setProgressiveJpegConfig(config)
+                .build();
+        Fresco.initialize(this, imagePipelineConfig);
     }
 
     private void bindView() {
@@ -193,6 +226,9 @@ public class MainActivity extends AppCompatActivity
         CoordinatorLayout mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.cl_Main_layout);
         bottomsheet = mCoordinatorLayout.findViewById(R.id.nsv);
         iv_bottom_sheet_pull = (ImageView) findViewById(R.id.iv_bottom_sheet_pull);
+
+        iv__bottom_sheet_pull_parent = (LinearLayout) findViewById(R.id.iv__bottom_sheet_pull_parent);
+        //                fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     @Override

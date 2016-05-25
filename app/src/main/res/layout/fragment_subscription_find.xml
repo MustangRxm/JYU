@@ -2,12 +2,19 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context="com.stu.app.jyu.view.Fragment.SubscriptionFind">
-
-    <!-- TODO: Update blank fragment layout -->
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/rv_subscriptionFind_app"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment"/>
-
+    <!--</android.support.v7.widget.RecyclerView> </android.support.v4.widget.SwipeRefreshLayout>-->
 </FrameLayout>

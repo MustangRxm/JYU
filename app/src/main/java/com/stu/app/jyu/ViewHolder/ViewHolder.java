@@ -18,8 +18,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 
     View view;
-    private TextView tv;
-    private ImageView iv;
+    public TextView tv;
+    public ImageView iv;
 
     public ViewHolder(View itemView) {
         super(itemView);

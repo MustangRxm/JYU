@@ -23,4 +23,12 @@ public class SpTools {
         SharedPreferences sp = context.getSharedPreferences(constantsVAR.SpFile,Context.MODE_PRIVATE);
         return sp.getBoolean(key,defvalue);
     }
+//    public static void putList(Context context,String key ,String value){
+//        SharedPreferences sp = context.getSharedPreferences(constantsVAR.CacheListFile,Context.MODE_PRIVATE);
+//        sp.edit().putStringSet(key,value).commit();
+//    }
+//    public static String getList(Context context,String key ,String defvalue){
+//        SharedPreferences sp = context.getSharedPreferences(constantsVAR.CacheListFile,Context.MODE_PRIVATE);
+//        return sp.getString(key,defvalue);
+//    }
 }

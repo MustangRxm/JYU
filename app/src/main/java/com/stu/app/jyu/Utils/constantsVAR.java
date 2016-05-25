@@ -7,6 +7,12 @@ package com.stu.app.jyu.Utils;
  */
 public interface constantsVAR {
     String SpFile="config";
+    String CacheListFile = "CacheListFile";
     int LoadMainActivity = 0x01;
+    int GetNewsSuccess = 0x02;
+    int LoginActivity = 0x04;
+    String FirstTimeUse = "FirstTimeUse";
+    String LogInState = "LogInState";
+
 
 }

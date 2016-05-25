@@ -58,7 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> implem
         }
 
     }
-    public static interface OnRecyclerViewItemClickListener{
+    public  interface OnRecyclerViewItemClickListener{
         void onItemClick(View view, int position);
     }
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
