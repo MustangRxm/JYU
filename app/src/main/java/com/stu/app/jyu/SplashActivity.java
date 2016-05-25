@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stu.app.jyu.Utils.NewsUtils;
 import com.stu.app.jyu.Utils.SpTools;
@@ -43,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
     private RelativeLayout rl_splash_activity;
     private List list = null;
     private Button startActivity;
-    private PopupWindow popupWindow;
+    private PopupWindow LoginPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,8 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (popupWindow.isShowing()) {
-                popupWindow.dismiss();
+            if (LoginPopupWindow.isShowing()) {
+                LoginPopupWindow.dismiss();
                 return true;
             }
             //            return super.onKeyDown(keyCode, event);
@@ -92,13 +93,13 @@ public class SplashActivity extends AppCompatActivity {
                 final TextView tv_forgetpwd;
                 final TextView tv_registered;
                 final View LoginView = LayoutInflater.from(SplashActivity.this).inflate(R.layout.activity_log_in, null);
-                popupWindow = new PopupWindow(SplashActivity.this);
-                popupWindow.setContentView(LoginView);
-                popupWindow.setFocusable(true);//如果不设置，不获取焦点，里面的Edittext就无法获得焦点，弹不出虚拟键盘
-                popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-                popupWindow.showAtLocation(LoginView, Gravity.CENTER, 0, 0);
-                //                popupWindow.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                LoginPopupWindow = new PopupWindow(SplashActivity.this);
+                LoginPopupWindow.setContentView(LoginView);
+                LoginPopupWindow.setFocusable(true);//如果不设置，不获取焦点，里面的Edittext就无法获得焦点，弹不出虚拟键盘
+                LoginPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                LoginPopupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                LoginPopupWindow.showAtLocation(LoginView, Gravity.CENTER, 0, 0);
+                //                LoginPopupWindow.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 userpwd_textInputLayout = (TextInputLayout) LoginView.findViewById(R.id.userpwd_textInputLayout);
                 usernumber_textInputLayout = (TextInputLayout) LoginView.findViewById(R.id.usernumber_textInputLayout);
                 et_login_userName = (EditText) LoginView.findViewById(R.id.et_login_userName);
@@ -108,9 +109,36 @@ public class SplashActivity extends AppCompatActivity {
                 tv_registered = (TextView) LoginView.findViewById(R.id.tv_registered);
                 //                et_login_userName.setFocusable(true);
                 //                et_login_userName.setShowSoftInputOnFocus(true);
+                tv_registered.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View LoginForget = LayoutInflater.from(LoginView.getContext()).inflate(R.layout.activity_registered,null);
+                        PopupWindow LoginRegisteredPopWindow = new PopupWindow(LoginView.getContext());
+                        LoginRegisteredPopWindow.setContentView(LoginForget);
+                        LoginRegisteredPopWindow.setFocusable(true);
+                        LoginRegisteredPopWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                        LoginRegisteredPopWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                        LoginRegisteredPopWindow.showAtLocation(LoginForget, Gravity.CENTER, 0, 0);
+                        Toast.makeText(LoginView.getContext(),"hehe",Toast.LENGTH_LONG).show();
+                    }
+                });
+                tv_forgetpwd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View LoginForget = LayoutInflater.from(LoginView.getContext()).inflate(R.layout.activity_forgetpwd,null);
+                PopupWindow LoginForgetPopWindow = new PopupWindow(LoginView.getContext());
+                        LoginForgetPopWindow.setContentView(LoginForget);
+                        LoginForgetPopWindow.setFocusable(true);
+                        LoginForgetPopWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                        LoginForgetPopWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                        LoginForgetPopWindow.showAtLocation(LoginForget, Gravity.CENTER, 0, 0);
+                        Toast.makeText(LoginView.getContext(),"hehe",Toast.LENGTH_LONG).show();
+                     }
+                });
                 bt_login.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //验证号码和密码的正确性
                         //将号码和密码发送给服务器验证登录
                     }
                 });
@@ -190,9 +218,6 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                     //                    overridePendingTransition();
                     break;
-                case constantsVAR.LoginActivity:
-//                    Intent Login = new Intent(SplashActivity.this, LogInActivity.class);
-//                    startActivity(Login);
 
             }
 
@@ -222,17 +247,11 @@ public class SplashActivity extends AppCompatActivity {
         }
         String year_month = TimeUtils.getServerTime(SplashActivity.this, "yy-MM");
         NewsUtils.getNewsData(SplashActivity.this, year_month);
-        //        getNewsData(SplashActivity.this,"16","Date");
-
-        //                int cur_Month = Integer.parseInt(time_[1]);
-        //                int cur_Day = Integer.parseInt(time_[2]);
     }
 
     private void checkVersion() {
         //        如果有新版本，弹框提示用户
         //        否则进入splash页面
-
-
     }
 
     private void initView() {
@@ -241,29 +260,5 @@ public class SplashActivity extends AppCompatActivity {
         startActivity = (Button) findViewById(R.id.button);
         rl_splash_activity = (RelativeLayout) findViewById(R.id.rl_splash_activity);
     }
-    //    public  void getNewsData(Context mcontext, final String Year, String key){
-    //
-    //        BmobQuery<JYU_Important_News> query_News = new BmobQuery<JYU_Important_News>();
-    //        query_News.addWhereContains("Date",Year+"-");
-    //        Log.i("testtime","current_year::"+Year);
-    //        //                query_News.addWhereStartsWith("Date",cur_Year+"-");
-    //        query_News.order("Date");//字符前面有个-,就是降序,否则默认字符就是升序
-    //        query_News.findObjects(mcontext, new FindListener<JYU_Important_News>() {
-    //            @Override
-    //            public void onSuccess(List<JYU_Important_News> list) {
-    //                CacheUtils cacheUtils = new CacheUtils(SplashActivity.this);
-    //                cacheUtils.saveJsonToCacheFile(list,Year);
-    //                EventBus.getDefault().postSticky(list);
-    //                Log.i("entryviewholder","onSuccess");
-    //            }
-    //            @Override
-    //            public void onError(int i, String s) {
-    //                CacheUtils cacheUtils = new CacheUtils(SplashActivity.this);
-    //                List<JYU_Important_News> list  = cacheUtils.getJsonStr(Year);
-    ////                List<JYU_Important_News> list = null;
-    //                EventBus.getDefault().postSticky(list);
-    //                Log.i("entryviewholder","on error");
-    //            }
-    //        });
-    //    }
+
 }
