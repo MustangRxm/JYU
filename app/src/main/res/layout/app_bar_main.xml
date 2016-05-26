@@ -70,7 +70,14 @@
 
     <!--<include layout="@layout/content_main"/>-->
     <!--</LinearLayout>-->
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:paddingBottom="30dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nsv"
         android:layout_width="match_parent"
@@ -79,17 +86,14 @@
         android:focusable="true"
         app:behavior_hideable="true"
         app:behavior_peekHeight="35dp"
-
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="true"
-
             app:cardUseCompatPadding="true"
-            card_view:cardCornerRadius="5dp"
-            >
+            card_view:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,8 +106,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@color/colorPrimaryDark"
-                    android:gravity="center"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/iv_bottom_sheet_pull"
@@ -128,13 +132,6 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="30dp"
-        android:focusable="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -40,8 +40,6 @@ import com.stu.app.jyu.view.Fragment.SubscriptionFind;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
-
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        Fresco.initialize(this);
-        Bmob.initialize(this, "06beaae856eb317097fd9381493b62ed");
+//        Bmob.initialize(this,"06beaae856eb317097fd9381493b62ed");
         setContentView(R.layout.activity_main);
         //EventBus.getDefault().
         initView();
@@ -167,8 +165,8 @@ public class MainActivity extends AppCompatActivity
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_new_stu_nav, "新生导航"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_chattree, "树洞"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_market, "跳蚤市场"));
-        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_library, "图书馆"));
-        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_sk_tree, "技能树"));
+//        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_library, "图书馆"));
+//        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_sk_tree, "技能树"));
         adapter = new RecyclerViewAdapter(this, mAppItemList, R.layout.sch_live_app_recycleview_item);
         rv_sch_live_app.setAdapter(adapter);
         mFragmentList = new ArrayList<>();

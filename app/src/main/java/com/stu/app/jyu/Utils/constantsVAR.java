@@ -13,6 +13,7 @@ public interface constantsVAR {
     int LoginActivity = 0x04;
     String FirstTimeUse = "FirstTimeUse";
     String LogInState = "LogInState";
+    String TAG = "Debug_Tag";
 
 
 }
