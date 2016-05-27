@@ -38,4 +38,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_forget_find">ForgetFindActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
 </resources>
