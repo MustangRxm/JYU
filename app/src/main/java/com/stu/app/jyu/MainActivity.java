@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         login = (TextView) nav_view.getHeaderView(0).findViewById(R.id.tv_login);
+
         mTabLayout = (android.support.design.widget.TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         rv_sch_live_app = (RecyclerView) findViewById(R.id.rv_sch_live_app);

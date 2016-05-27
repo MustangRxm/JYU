@@ -23,15 +23,17 @@
 
 
     </FrameLayout>
-
+<!--通过取消 app:menu，并且重写app:headerLayout，重新布局，将app:headerLayout全覆盖侧滑菜单，将功能按钮全放进去-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:menu="@menu/activity_main_drawer"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main_outline"
-        app:menu="@menu/activity_main_drawer"/>
+        />
+
     <!--<android.support.design.widget.NavigationView-->
         <!--android:id="@+id/function_view"-->
         <!--android:layout_width="wrap_content"-->
