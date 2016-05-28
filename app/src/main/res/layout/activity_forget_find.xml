@@ -6,6 +6,7 @@
     android:id="@+id/activity_forget_find"
     android:layout_width="match_parent"
     app:theme="@style/Theme.Transparent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/forget_find_backgroud"
     android:layout_height="match_parent"
     tools:context="com.stu.app.jyu.view.Activity.ForgetFindActivity">

@@ -1,7 +1,6 @@
 package com.stu.app.jyu;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,19 +19,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.decoder.ProgressiveJpegConfig;
 import com.facebook.imagepipeline.image.QualityInfo;
 import com.stu.app.jyu.Adapter.FragmentWithViewPagerAdapter;
 import com.stu.app.jyu.Adapter.RecyclerViewAdapter;
 import com.stu.app.jyu.Domain.AppItem;
+import com.stu.app.jyu.Utils.constantsVAR;
 import com.stu.app.jyu.view.Fragment.SchoolNews;
 import com.stu.app.jyu.view.Fragment.Subscription;
 import com.stu.app.jyu.view.Fragment.SubscriptionFind;
@@ -62,12 +61,16 @@ public class MainActivity extends AppCompatActivity
     private BottomSheetBehavior behavior;
     private ImageView iv_bottom_sheet_pull;
     private LinearLayout iv__bottom_sheet_pull_parent;
+    private RecyclerView rv_sliding_Menu;
+    private SimpleDraweeView sv_sliding_img;
+    private TextView tv_sliding_userIntroduction;
+    private TextView tv_sliding_userOtherName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        Fresco.initialize(this);
-//        Bmob.initialize(this,"06beaae856eb317097fd9381493b62ed");
+        //        Bmob.initialize(this,"06beaae856eb317097fd9381493b62ed");
         setContentView(R.layout.activity_main);
         //EventBus.getDefault().
         initView();
@@ -91,73 +94,20 @@ public class MainActivity extends AppCompatActivity
 
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        //        EventBus.getDefault().unregister(this);
     }
 
     private void initEvent() {
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "please login", Toast.LENGTH_LONG).show();
-            }
-        });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                RotateAnimation ro1 = new RotateAnimation(0.0f, 180f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-                RotateAnimation ro2 = new RotateAnimation(180f, 360f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-                ro1.setFillAfter(true);
-                ro2.setFillAfter(true);
-                ro1.setDuration(200);
-                ro2.setDuration(200);
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        iv_bottom_sheet_pull.startAnimation(ro2);
-                        Log.i("BottomSheetBehavior__", newState + "  STATE_COLLAPSED");
-                        break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        Log.i("BottomSheetBehavior__", newState + "  STATE_DRAGGING");
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED:
-                        iv_bottom_sheet_pull.startAnimation(ro1);
-                        Log.i("BottomSheetBehavior__", newState + "  STATE_EXPANDED");
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                        Log.i("BottomSheetBehavior__", newState + "  STATE_HIDDEN");
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        Log.i("BottomSheetBehavior__", newState + "  STATE_SETTLING");
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
-
-        iv__bottom_sheet_pull_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                } else {
-                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-            }
-        });
     }
 
     private void initData() {
         mAppItemList = new ArrayList<>();
-        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_game, "Game"));
+        //        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_game, "Game"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_chat, "吹水地"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_lostfind, "失物认领"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_activity_outline, "线下活动"));
@@ -165,10 +115,9 @@ public class MainActivity extends AppCompatActivity
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_new_stu_nav, "新生导航"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_chattree, "树洞"));
         mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_market, "跳蚤市场"));
-//        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_library, "图书馆"));
-//        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_sk_tree, "技能树"));
+        //        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_library, "图书馆"));
+        //        mAppItemList.add(new AppItem(R.drawable.ic_sch_live_item_sk_tree, "技能树"));
         adapter = new RecyclerViewAdapter(this, mAppItemList, R.layout.sch_live_app_recycleview_item);
-        rv_sch_live_app.setAdapter(adapter);
         mFragmentList = new ArrayList<>();
         mFragmentTitleList = new ArrayList<>();
         mFragmentList.add(new SchoolNews());
@@ -184,16 +133,21 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(fwp);
         mTabLayout.setupWithViewPager(mViewPager);
-
-
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(constantsVAR.TAG, "position::" + position);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        rv_sliding_Menu.setAdapter(adapter);
     }
 
     private void initView() {
         bindView();
+//        if (Bmob)
         nav_view.setItemIconTintList(null);//设置这个图标颜色会使用默认色，不会变成灰色
-
-        rv_sch_live_app.setLayoutManager(new GridLayoutManager(this, 4));
-        behavior = BottomSheetBehavior.from(bottomsheet);
+        rv_sliding_Menu.setLayoutManager(new GridLayoutManager(this, 4));
         ProgressiveJpegConfig config = new ProgressiveJpegConfig() {
             @Override
             public int getNextScanNumberToDecode(int i) {
@@ -215,19 +169,19 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         nav_view = (NavigationView) findViewById(R.id.nav_view);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        View slidingView = nav_view.getHeaderView(0);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        login = (TextView) nav_view.getHeaderView(0).findViewById(R.id.tv_login);
-
+        //        login = (TextView) nav_view.getHeaderView(0).findViewById(R.id.tv_login);
         mTabLayout = (android.support.design.widget.TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        rv_sch_live_app = (RecyclerView) findViewById(R.id.rv_sch_live_app);
         CoordinatorLayout mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.cl_Main_layout);
-        bottomsheet = mCoordinatorLayout.findViewById(R.id.nsv);
-        iv_bottom_sheet_pull = (ImageView) findViewById(R.id.iv_bottom_sheet_pull);
-
-        iv__bottom_sheet_pull_parent = (LinearLayout) findViewById(R.id.iv__bottom_sheet_pull_parent);
-        //                fab = (FloatingActionButton) findViewById(R.id.fab);
+        rv_sliding_Menu = (RecyclerView) slidingView.findViewById(R.id.rv_sliding_Menu);
+        sv_sliding_img = (SimpleDraweeView) slidingView.findViewById(R.id.sv_sliding_img);
+        tv_sliding_userIntroduction = (TextView) slidingView.findViewById(R.id.tv_sliding_userIntroduction);
+        tv_sliding_userOtherName = (TextView) slidingView.findViewById(R.id.tv_sliding_userOtherName);
     }
 
     @Override
@@ -267,13 +221,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_find) {
-            item.setChecked(false);
-
-        } else if (id == R.id.nav_collect) {
+        if (id == R.id.nav_collect) {
 
         } else if (id == R.id.nav_setting) {
 
@@ -282,8 +230,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

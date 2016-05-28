@@ -7,7 +7,8 @@
     android:id="@+id/cl_Main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     tools:context="com.stu.app.jyu.MainActivity">
 
     <!--<LinearLayout-->
@@ -35,6 +36,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="5dp"
+            android:fitsSystemWindows="true"
             android:minHeight="0dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -78,59 +80,59 @@
         android:paddingBottom="30dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nsv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="20dp"
-        android:focusable="true"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="35dp"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/nsv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:elevation="20dp"-->
+        <!--android:focusable="true"-->
+        <!--app:behavior_hideable="true"-->
+        <!--app:behavior_peekHeight="35dp"-->
+        <!--app:layout_behavior="@string/bottom_sheet_behavior">-->
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="true"
-            app:cardUseCompatPadding="true"
-            card_view:cardCornerRadius="5dp">
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:clipToPadding="true"-->
+            <!--app:cardUseCompatPadding="true"-->
+            <!--card_view:cardCornerRadius="5dp">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:orientation="vertical">-->
 
-                <LinearLayout
-                    android:id="@+id/iv__bottom_sheet_pull_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:clickable="true"
-                    android:gravity="center">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/iv__bottom_sheet_pull_parent"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:background="@color/colorPrimaryDark"-->
+                    <!--android:clickable="true"-->
+                    <!--android:gravity="center">-->
 
-                    <ImageView
-                        android:id="@+id/iv_bottom_sheet_pull"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_sch_live_pull_up"
-                        />
-                </LinearLayout>
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_bottom_sheet_pull"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:src="@drawable/ic_sch_live_pull_up"-->
+                        <!--/>-->
+                <!--</LinearLayout>-->
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_sch_live_app"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:elevation="10dp"
-                    android:paddingLeft="30dp"
-                    android:paddingTop="10dp">
-                </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/rv_sch_live_app"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:elevation="10dp"-->
+                    <!--android:paddingLeft="30dp"-->
+                    <!--android:paddingTop="10dp">-->
+                <!--</android.support.v7.widget.RecyclerView>-->
+            <!--</LinearLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
 
 
-    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
 
 

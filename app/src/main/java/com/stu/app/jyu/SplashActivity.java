@@ -51,6 +51,7 @@ public class SplashActivity   extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         initView();
         EventBus.getDefault().register(this);
@@ -185,9 +186,15 @@ public class SplashActivity   extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_splash);
-
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//        tintManager.setStatusBarTintEnabled(true);
+//        tintManager.setStatusBarAlpha(0f);
+//        tintManager.setTintColor(Color.BLUE);
         startActivity = (Button) findViewById(R.id.button);
         rl_splash_activity = (RelativeLayout) findViewById(R.id.rl_splash_activity);
+//        rl_splash_activity.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         vp_splash = (ViewPager) findViewById(R.id.vp_splash);
 vp_splash.setOffscreenPageLimit(2);
         circleIndicator = (CircleIndicator) findViewById(R.id.indicator);
