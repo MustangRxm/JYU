@@ -1,4 +1,4 @@
-package com.stu.app.jyu;
+package com.stu.app.jyu.ImageLoader;
 /*
  * Copyright (C) 2014 pengjianbo(pengjianbosoft@gmail.com), Inc.
  *

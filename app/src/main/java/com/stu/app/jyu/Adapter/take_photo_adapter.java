@@ -3,6 +3,7 @@ package com.stu.app.jyu.Adapter;
 import android.content.Context;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.stu.app.jyu.Domain.TakePhotoItem;
 import com.stu.app.jyu.ViewHolder.BaseViewHolder;
 import com.stu.app.jyu.ViewHolder.take_photo_ViewHolder;
@@ -38,7 +39,8 @@ public class take_photo_adapter extends BaseRecyclerViewAdapter {
         holder.getView().setTag(position);
         take_photo_ViewHolder viewholder = (take_photo_ViewHolder) holder;
 //        viewholder.mSimpleDraweeView.setImageURI(Uri.parse((String) list.get(position)));
-        viewholder.mSimpleDraweeView.setImageBitmap(list.get(position).getSmallIMG());
+//        viewholder.mSimpleDraweeView.setImageBitmap(list.get(position).getSmallIMG());
+        Glide.with(context).load(list.get(position)).thumbnail(0.1f).into(viewholder.mImageView);
     }
 
 //    @Override

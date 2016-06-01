@@ -4,6 +4,7 @@ import android.app.Application;
 import android.graphics.Color;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.stu.app.jyu.ImageLoader.GlideImageLoader;
 import com.stu.app.jyu.Utils.ImagePipelineConfigFactory;
 
 import cn.bmob.v3.Bmob;
@@ -40,7 +41,8 @@ public class InitApplication extends Application {
                 .setEnablePreview(true)
                 .build();
         //        //配置imageloader
-        PicassoImageLoader imageLoader = new PicassoImageLoader();
+//        PicassoImageLoader imageLoader = new PicassoImageLoader();
+        GlideImageLoader imageLoader = new GlideImageLoader();
         //        ImageLoader imageloader = new UILImageLoader();
         //设置核心配置信息
         CoreConfig coreConfig = new CoreConfig.Builder(this, imageLoader, theme)

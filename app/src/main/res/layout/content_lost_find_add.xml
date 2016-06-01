@@ -1,39 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/content_lost_find_add"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:isScrollContainer="true"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--tools:context="com.stu.app.jyu.view.Activity.LostFindAddContentActivity"-->
+    <!--tools:showIn="@layout/activity_lost_find_add">-->
+
+    <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_lost_find_add"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.stu.app.jyu.view.Activity.LostFindAddContentActivity"
-    tools:showIn="@layout/activity_lost_find_add">
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+    tools:context="com.stu.app.jyu.view.Activity.LostFindAddContentActivity"
+    tools:showIn="@layout/activity_lost_find_add"
         >
 
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-           <!--&gt;-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            >
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_lost_find_photo"
-    android:focusable="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <!--<android.support.v7.widget.RecyclerView-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_lost_find_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"/>
+
+                <!--<android.support.v7.widget.RecyclerView-->
                 <!--android:id="@+id/recyclerView"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--/>-->
-        <!--</android.support.v7.widget.CardView>-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:text="清空"
+                        android:background="#ffffff"
+                        android:layout_height="40dp"
+                        android:id="@+id/bt_recover"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
@@ -45,10 +73,10 @@
             android:layout_marginTop="20dp"
             >
 
-            <EditText
-                android:id="@+id/et_eventinfo_input"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_eventinfo_desc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/recyclerView"
@@ -56,36 +84,62 @@
                 android:gravity="top|left"
                 android:hint="请使用140文字以内描述物品特征"
                 android:maxLength="140"
-                android:minLines="5"/>
+                android:minLines="5"
+                >
+
+                <EditText
+                    android:id="@+id/et_eventinfo_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="top|left"
+                    android:maxLength="140"
+                    android:minLines="5"/>
+            </android.support.design.widget.TextInputLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/et_eventinfo_input"
+                android:layout_below="@+id/til_eventinfo_desc"
                 android:orientation="horizontal"
                 >
 
                 <Spinner
+                    android:id="@+id/sp_contact"
+
+                    android:paddingTop="10dp"
                     android:layout_width="0dp"
+                    android:gravity="center_horizontal"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:entries="@array/contact"/>
-
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/til_eventinfo_contact"
+    android:layout_width="0dp"
+    android:layout_weight="3"
+    android:background="@null"
+    android:hint="选填"
+    android:gravity="center_vertical"
+    android:layout_height="match_parent">
                 <EditText
-                    android:layout_width="0dp"
+                    android:id="@+id/et_eventinfo_contact"
+                    android:gravity="left|center_vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:hint="选填"
+                   android:maxLines="1"
                     android:background="@null"
+
                     />
+</android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+<!--</android.support.constraint.ConstraintLayout>-->

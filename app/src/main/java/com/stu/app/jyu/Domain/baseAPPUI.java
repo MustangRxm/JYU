@@ -2,16 +2,22 @@ package com.stu.app.jyu.Domain;
 
 
 import java.util.List;
+import java.util.Map;
 
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobDate;
 
 /**
  * Created by m1 on 16-5-28.
  */
 
-public  class baseAPPUI {
-    private Integer TYPE;
-    baseAPPUI(Integer TYPE){
+public  class baseAPPUI extends BmobObject{
+    public   enum  Contact_Type{
+        QQ,WEICHAT,PHONE
+
+    }
+    public Integer TYPE;
+    public baseAPPUI(Integer TYPE){
         this.TYPE = TYPE;
     }
 
@@ -39,11 +45,11 @@ public  class baseAPPUI {
         Date = date;
     }
 
-    public String getContact() {
+    public List<Map<Contact_Type,String>> getContact() {
         return Contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(List<Map<Contact_Type,String>> contact) {
         Contact = contact;
     }
 
@@ -74,7 +80,7 @@ public  class baseAPPUI {
     private List<String> imageUrl;
     private String location;
     private BmobDate Date;
-    private String Contact;
+    private List<Map<Contact_Type,String>> Contact;
 //    private Comment Comment;
     //    private Shared  Shared;
 //    private Collect Collect;
