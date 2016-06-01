@@ -31,12 +31,14 @@
     <Button
 
         android:id="@+id/button"
+        android:background="#db6968"
+        android:alpha="0.7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:shadowColor="@color/black_overlay"
-        android:text="click me"/>
+        android:text="开启新生活"/>
 
 </RelativeLayout>

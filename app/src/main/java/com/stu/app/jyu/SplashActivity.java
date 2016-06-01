@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class SplashActivity   extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         initView();
         EventBus.getDefault().register(this);
@@ -175,6 +176,7 @@ public class SplashActivity   extends AppCompatActivity {
         circleIndicator.setViewPager(vp_splash);
         //下面两个步骤需要扔到线程里
         String year_month = TimeUtils.getServerTime(SplashActivity.this, "yy-MM");
+        Log.i("20160601","now time is ::"+year_month);
         NewsUtils.getNewsData(SplashActivity.this, year_month);
 
     }

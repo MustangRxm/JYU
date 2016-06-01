@@ -24,17 +24,18 @@ public class NewsUtils {
         //先从网络加载数据,
         if (NetWorkUtils.isOpenNetWork(mcontext)) {
 
-            Log.i("test20160524","enter network loader");
+            Log.i("20160601", "enter network loader");
             BmobQuery<JYU_Important_News> query_News = new BmobQuery<JYU_Important_News>();
             query_News.addWhereContains("Date", Year_month + "-");
             query_News.order("-Date");//字符前面有个-,就是降序,否则默认字符就是升序
             query_News.findObjects(mcontext, new FindListener<JYU_Important_News>() {
                 @Override
                 public void onSuccess(List<JYU_Important_News> mlist) {
+                    Log.i("20160601", "enter network loader mlist size::"+mlist.size());
                     CacheUtils cacheUtils = new CacheUtils(mcontext);
                     cacheUtils.saveJsonToCacheFile(mlist, Year_month);
                     EventBus.getDefault().postSticky(mlist);
-                    cacheUtils=null;
+                    cacheUtils = null;
                 }
 
                 @Override
@@ -47,15 +48,15 @@ public class NewsUtils {
             });
 
         } else {
-            Log.i("test20160524","enter no internet loader");
+            Log.i("20160601", "enter no internet loader");
             //如果没有，去硬盘
             CacheUtils cacheUtils = new CacheUtils(mcontext);
             //        final String year =TimeUtils.getServerTime(mcontext,"yy");
             List<JYU_Important_News> list = cacheUtils.getJsonStr(Year_month);
             if (list != null) {
                 EventBus.getDefault().postSticky(list);
-                cacheUtils=null;
-                list=null;
+                cacheUtils = null;
+                list = null;
                 //        return;
             }
         }

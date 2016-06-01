@@ -11,6 +11,7 @@ public interface constantsVAR {
     int LoadMainActivity = 0x01;
     int GetNewsSuccess = 0x02;
     int LoginActivity = 0x04;
+    int TAKE_PHOTO_BYCAMERA = 0x08;
     String FirstTimeUse = "FirstTimeUse";
     String LogInState = "LogInState";
     String TAG = "Debug_Tag";

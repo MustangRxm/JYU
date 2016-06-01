@@ -21,31 +21,38 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseV
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;
     private int resource;
 
-
     public BaseRecyclerViewAdapter(Context context, List list, int resource) {
-//        this.mcontext = mcontext;
+        //        this.mcontext = mcontext;
         this.mcontext = context;
         mList = list;
         this.resource = resource;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //               View view = View.inflate(getApplicationContext(),R.layout.rv_item,parent);
+        BaseViewHolder v = null;
         View view = LayoutInflater.from(mcontext).inflate(resource, parent, false);
         view.setOnClickListener(this);
-        BaseViewHolder v = getViewHolder(view);
+        v = getViewHolder(view);
         return v;
     }
 
+
     protected abstract BaseViewHolder getViewHolder(View view);
 
-        public abstract void onBindViewHolder_(BaseViewHolder holder, int position);
+    public abstract void onBindViewHolder_(BaseViewHolder holder, int position);
+
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        onBindViewHolder_(holder,position);
+        onBindViewHolder_(holder, position);
     }
 
     public int getItemCount() {
-        return mList.size();
+        return mList.size() ;
     }
 
     @Override

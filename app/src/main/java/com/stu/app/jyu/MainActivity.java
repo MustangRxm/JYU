@@ -1,5 +1,7 @@
 package com.stu.app.jyu;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,13 +34,21 @@ import com.facebook.imagepipeline.image.QualityInfo;
 import com.stu.app.jyu.Adapter.FragmentWithViewPagerAdapter;
 import com.stu.app.jyu.Adapter.RecyclerViewAdapter;
 import com.stu.app.jyu.Domain.AppItem;
+import com.stu.app.jyu.Domain.JyuUser;
 import com.stu.app.jyu.Utils.constantsVAR;
+import com.stu.app.jyu.view.Activity.InnerAppFunctionActivity;
 import com.stu.app.jyu.view.Fragment.SchoolNews;
 import com.stu.app.jyu.view.Fragment.Subscription;
 import com.stu.app.jyu.view.Fragment.SubscriptionFind;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
+
+import static com.stu.app.jyu.Domain.ActivityTYPE.ACTIVITY_CHAT;
 
 
 public class MainActivity extends AppCompatActivity
@@ -69,13 +80,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         //        Fresco.initialize(this);
         //        Bmob.initialize(this,"06beaae856eb317097fd9381493b62ed");
         setContentView(R.layout.activity_main);
-        //EventBus.getDefault().
+//        EventBus.getDefault().
         initView();
         initData();
-        //        EventBus.getDefault().register(MainActivity.this);
+//                EventBus.getDefault().register(MainActivity.this);
         initEvent();
 
     }
@@ -138,6 +151,31 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(View view, int position) {
                 Log.i(constantsVAR.TAG, "position::" + position);
                 drawer.closeDrawer(GravityCompat.START);
+                switch (position){
+                    case 0:
+                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+                        break;
+//                    case 1:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+//                    case 2:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+//                    case 3:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+//                    case 4:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+//                    case 5:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+//                    case 6:
+//                        EventBus.getDefault().postSticky(ACTIVITY_CHAT);
+//                        break;
+                }
+                startActivity(new Intent(MainActivity.this, InnerAppFunctionActivity.class));
+//                startActivity(new Intent(),new Bundle())
             }
         });
         rv_sliding_Menu.setAdapter(adapter);
@@ -145,7 +183,25 @@ public class MainActivity extends AppCompatActivity
 
     private void initView() {
         bindView();
-//        if (Bmob)
+        JyuUser userInfo =BmobUser.getCurrentUser(this, JyuUser.class);
+                if (userInfo!=null){
+                    if (userInfo.getUserNickname()!=null){
+                        tv_sliding_userOtherName.setText(userInfo.getUserNickname());
+                    }else {
+                        tv_sliding_userOtherName.setText(userInfo.getUsername());
+                    }
+                    if (userInfo.getUserIntroduction()!=null){
+                        tv_sliding_userIntroduction.setText(userInfo.getUserIntroduction());
+                    }else {
+                        tv_sliding_userIntroduction.setText("这个人很懒，什么都没写");
+                    }
+
+                    if (userInfo.getUserImage()!=null){
+                        sv_sliding_img.setImageURI(Uri.parse(userInfo.getUserImage()));
+                    }else {
+                        sv_sliding_img.setImageURI(Uri.parse("res:///"+R.mipmap.test));
+                    }
+                }
         nav_view.setItemIconTintList(null);//设置这个图标颜色会使用默认色，不会变成灰色
         rv_sliding_Menu.setLayoutManager(new GridLayoutManager(this, 4));
         ProgressiveJpegConfig config = new ProgressiveJpegConfig() {
@@ -166,11 +222,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void bindView() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         nav_view = (NavigationView) findViewById(R.id.nav_view);
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         View slidingView = nav_view.getHeaderView(0);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -209,7 +266,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_SEND) {
             return true;
         }
 

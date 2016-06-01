@@ -6,7 +6,6 @@
              android:layout_gravity="center"
 android:fitsSystemWindows="true"
              tools:context="com.stu.app.jyu.view.Fragment.SchoolNews">
-
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_sch_news_app"

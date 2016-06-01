@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coo_lost_find_add"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.stu.app.jyu.view.Activity.LostFindAddContentActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_lost_find_add"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/take_photo_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:background="#00ffffff"
+
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:elevation="20dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/ll_show_take_photo_option"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:background="#47d6d2d2"-->
+        <!--android:layout_height="match_parent"-->
+        <!--&gt;-->
+        <include layout="@layout/select_photo"
+            />
+        <!--</LinearLayout>-->
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--android:src="@android:drawable/ic_dialog_email"/>-->
+
+</android.support.design.widget.CoordinatorLayout>

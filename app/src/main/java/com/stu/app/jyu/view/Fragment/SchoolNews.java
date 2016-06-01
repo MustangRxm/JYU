@@ -12,11 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.stu.app.jyu.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyu.Adapter.sch_news_App_RecyclerViewAdapter;
 import com.stu.app.jyu.Domain.JYU_Important_News;
@@ -56,24 +56,29 @@ public class SchoolNews extends Fragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    if (sch_news_Rv_Adapter==null){
-                    sch_news_Rv_Adapter = new sch_news_App_RecyclerViewAdapter(getContext(), list, R.layout.sch_news_cardview_item);
-                    sch_news_Rv_Adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent(getContext(), News_Entity_Activity.class);
-                            EventBus.getDefault().postSticky(list.get(position));
-                            startActivity(intent);
-                        }
-                    });
-                    rv_sch_news_app.setAdapter(sch_news_Rv_Adapter);}
-                    else {sch_news_Rv_Adapter.notifyDataSetChanged();
-                        srl_sch_news_app.setRefreshing(false);}
+                    if (sch_news_Rv_Adapter == null) {
+                        sch_news_Rv_Adapter = new sch_news_App_RecyclerViewAdapter(getContext(), list, R.layout.sch_news_cardview_item);
+//                        sch_news_Rv_Adapter.setheadView(View.inflate(getContext(),R.layout.testhead,null));
+                        sch_news_Rv_Adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(getContext(), News_Entity_Activity.class);
+                                EventBus.getDefault().postSticky(list.get(position));
+                                startActivity(intent);
+                            }
+                        });
+                        rv_sch_news_app.setAdapter(sch_news_Rv_Adapter);
+                        Log.i("test20160601","list size::"+list.size());
+                    } else {
+                        sch_news_Rv_Adapter.notifyDataSetChanged();
+                        srl_sch_news_app.setRefreshing(false);
+                    }
                     break;
             }
         }
@@ -81,7 +86,9 @@ public class SchoolNews extends Fragment {
 
     public SchoolNews() {
     }
+
     List<JYU_Important_News> list_sources;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,8 +105,38 @@ public class SchoolNews extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverListData(List<JYU_Important_News> list) {
-            this.list.addAll(list);
-            mHandler.sendEmptyMessage(1);
+        this.list.addAll(list);
+        //要注意，目前这样的请求数据方式是有问题的，后续想办法跟进
+        Log.i("test20160601","enter fragment eventbus");
+        Log.i("test20160601","enter fragment eventbus,send list size:"+list.size());
+        if (list.size()==0){
+            new AsyncTask<Object, Float, Object>() {
+                @Override
+                protected Object doInBackground(Object[] params) {
+                    String[] times = year_month.split("-");
+                    int year = Integer.parseInt(times[0]);
+                    int mon = Integer.parseInt(times[1]);
+                    if (mon > 1) {
+                        mon = mon - 1;
+                    } else if (mon == 1) {
+                        if (year == 0) {
+                            year = 99;
+                        } else {
+                            year = year - 1;
+                        }
+                        mon = 12;
+                    }
+                    if (mon < 10) {
+                        year_month = year + "-0" + mon;
+                    } else {
+                        year_month = year + "-" + mon;
+                    }
+                    NewsUtils.getNewsData(getContext(), year_month);
+                    return null;
+                }
+            }.execute();
+        }
+        mHandler.sendEmptyMessage(1);
         //如果splashActivity 在没有网络的时候，是进不了onsuccess，所以这里根本无法接收，自然不会有初始化adapter的操作
     }
 
@@ -161,15 +198,18 @@ public class SchoolNews extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
         rv_sch_news_app.setLayoutManager(linearLayoutManager);
     }
+
     private void initData() {
     }
+
     private RecyclerView rv_sch_news_app;
-    private SimpleDraweeView mSimpleDraweeView;
+//    private SimpleDraweeView mSimpleDraweeView;
     private SwipeRefreshLayout srl_sch_news_app;
+
     private void bindView(View view) {
         rv_sch_news_app = (RecyclerView) view.findViewById(R.id.rv_sch_news_app);
         srl_sch_news_app = (SwipeRefreshLayout) view.findViewById(R.id.srl_sch_news_app);
-        //        mSimpleDraweeView= (SimpleDraweeView) view.findViewById(R.id.sv_sch_news_cardview_item);
+//                mSimpleDraweeView= (SimpleDraweeView) view.findViewById(R.id.sv_sch_news_cardview_item);
 
     }
 

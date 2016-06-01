@@ -15,11 +15,10 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:src="#ffffff"
 
-        android:background="@color/colorPrimary"
         android:id="@+id/sv_sliding_img"
         android:layout_width="120dp"
         android:layout_height="120dp"
-
+        fresco:roundAsCircle="true"
         fresco:roundBottomLeft="true"
         fresco:roundBottomRight="true"
         fresco:roundTopLeft="true"
@@ -31,6 +30,9 @@
 
         <TextView
             android:text="userIntroduction"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:paddingLeft="15dp"
             android:id="@+id/tv_sliding_userIntroduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,10 +44,15 @@
         <TextView
             android:id="@+id/tv_sliding_userOtherName"
             android:text="othername"
+            android:textColor="#ffffff"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/sv_sliding_img"
             android:layout_toEndOf="@+id/sv_sliding_img"/>
     </RelativeLayout>
