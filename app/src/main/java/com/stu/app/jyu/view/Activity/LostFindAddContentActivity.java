@@ -1,5 +1,6 @@
 package com.stu.app.jyu.view.Activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.baoyz.actionsheet.ActionSheet;
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.cundong.recyclerview.RecyclerViewUtils;
 import com.stu.app.jyu.Adapter.BaseRecyclerViewAdapter;
@@ -55,8 +55,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
-import cn.finalteam.galleryfinal.GalleryFinal;
-import cn.finalteam.galleryfinal.model.PhotoInfo;
+import me.nereo.multi_image_selector.MultiImageSelector;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_CLASS_TEXT;
@@ -70,8 +69,8 @@ public class LostFindAddContentActivity extends AppCompatActivity {
     private int TYPE;
     private CoordinatorLayout coo;
     private Toolbar toolbar;
-    //    List<TakePhotoItem> list;
-    private List<String> list;
+    //    List<TakePhotoItem> ImgListDataSource;
+    private ArrayList<String> ImgListDataSource;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private RecyclerView rv;
     private take_photo_adapter adapter;
@@ -126,7 +125,7 @@ public class LostFindAddContentActivity extends AppCompatActivity {
         if (bundle != null) {
             TYPE = bundle.getInt(App_Function);
         }
-        list = new ArrayList<String>();
+        ImgListDataSource = new ArrayList<String>();
     }
 
 
@@ -194,8 +193,8 @@ public class LostFindAddContentActivity extends AppCompatActivity {
         bt_recover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (list.size() != 0) {
-                    list.removeAll(list);
+                if (ImgListDataSource.size() != 0) {
+                    ImgListDataSource.removeAll(ImgListDataSource);
                     adapter.notifyDataSetChanged();
                     iv_take_photo.setVisibility(View.VISIBLE);
                 }
@@ -207,11 +206,11 @@ public class LostFindAddContentActivity extends AppCompatActivity {
                 finish();
             }
         });
-        adapter = new take_photo_adapter(this, list, R.layout.take_photo_item);
+        adapter = new take_photo_adapter(this, ImgListDataSource, R.layout.take_photo_item);
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String item = list.get(position);
+                String item = ImgListDataSource.get(position);
                 startActivity(IntentUtils.getImageFileIntent(item));
                 Toast.makeText(getApplicationContext(), "open img", Toast.LENGTH_LONG).show();
             }
@@ -224,70 +223,31 @@ public class LostFindAddContentActivity extends AppCompatActivity {
         iv_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActionSheet.createBuilder(LostFindAddContentActivity.this, getSupportFragmentManager())
-
-                        .setCancelButtonTitle("取消(Cancel)")
-                        .setOtherButtonTitles("拍照(Camera)", "打开相册(Open Gallery)")
-                        .setCancelableOnTouchOutside(true)
-                        .setListener(new ActionSheet.ActionSheetListener() {
-                            @Override
-                            public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
-
-                            }
-
-                            @Override
-                            public void onOtherButtonClick(ActionSheet actionSheet, int index) {
-                                switch (index) {
-                                    case 0:
-                                        GalleryFinal.openCamera(0, new GalleryFinal.OnHanlderResultCallback() {
-                                            @Override
-                                            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                                                for (PhotoInfo fo : resultList) {
-                                                    list.add(fo.getPhotoPath());
-                                                    adapter.notifyDataSetChanged();
-                                                }
-                                                if ((list.size()) == 9) {
-                                                    iv_take_photo.setVisibility(View.GONE);
-                                                } else {
-                                                    iv_take_photo.setVisibility(View.VISIBLE);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onHanlderFailure(int requestCode, String errorMsg) {
-                                            }
-                                        });
-
-                                        break;
-                                    case 1:
-                                        int item_num = 9 - list.size();
-
-                                        GalleryFinal.openGalleryMuti(0, item_num, new GalleryFinal.OnHanlderResultCallback() {
-                                            @Override
-                                            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                                                for (PhotoInfo fo : resultList) {
-                                                    list.add(fo.getPhotoPath());
-                                                    adapter.notifyDataSetChanged();
-                                                }
-                                                if ((9 - list.size()) == 0) {
-                                                    iv_take_photo.setVisibility(View.GONE);
-                                                } else {
-                                                    iv_take_photo.setVisibility(View.VISIBLE);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onHanlderFailure(int requestCode, String errorMsg) {
-
-                                            }
-                                        });
-                                        break;
-                                }
-                            }
-                        }).show();
+                MultiImageSelector.create(LostFindAddContentActivity.this)
+                        .showCamera(true)
+                        .origin(ImgListDataSource)
+                        .count(9)
+                        .multi()
+                        .start(LostFindAddContentActivity.this, LostFind);
             }
         });
 
+    }
+
+    private ArrayList<String> mSelectPath;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LostFind) {
+            if (resultCode == RESULT_OK) {
+                mSelectPath = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
+                //list需要去重复
+                ImgListDataSource.clear();
+                ImgListDataSource.addAll(mSelectPath);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -306,10 +266,16 @@ public class LostFindAddContentActivity extends AppCompatActivity {
     private baseAPPUI LostFindFunction;
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-
     public void BmobUploadFile(final UpLoadImg upLoadImg) {
-        //    public void BmobUploadFile(String[] paths) {UpLoadImg
+        final int[] testsize = {upLoadImg.getPaths().length};
         Log.i("20160602", "enter main bus");
+        Log.i("20160602", "upLoadImg.path size::" + upLoadImg.getPaths().length);
+        ArrayList<String> CacheList = new ArrayList();
+        File dir = null;
+        dir = new File(getCacheDir().getAbsolutePath() + "/JYUtmp");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
         //先压缩
         String[] paths = upLoadImg.getPaths();
         Bitmap bitmap = null;
@@ -318,7 +284,10 @@ public class LostFindAddContentActivity extends AppCompatActivity {
         for (String str : paths) {
             try {
                 bitmap = BitmapFactory.decodeFile(str);
-                fos = new FileOutputStream(new File(str));
+                File fi = new File(str);
+                File newCacheFile = new File(dir.getAbsolutePath() + "/" + fi.getName());
+                fos = new FileOutputStream(newCacheFile);
+                CacheList.add(newCacheFile.getAbsolutePath());
                 COVflag = bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fos);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -336,30 +305,34 @@ public class LostFindAddContentActivity extends AppCompatActivity {
 
         }
 
-
+        String[] uploadPath = CacheList.toArray(new String[CacheList.size()]);
         //再将压缩源上传
-        BmobFile.uploadBatch(LostFindAddContentActivity.this, paths, new UploadBatchListener() {
+        BmobFile.uploadBatch(LostFindAddContentActivity.this, uploadPath, new UploadBatchListener() {
             @Override
             public void onSuccess(List<BmobFile> list, List<String> list1) {
-                //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
-                //2、urls-上传文件的完整url地址
+                //1、list-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
+                //2、list1-上传文件的完整url地址
                 if (list1.size() == list.size()) {//如果数量相等，则代表文件全部上传完成
-                    //do something
-                    baseAPPUI appui = new baseAPPUI(LostFind);
-                    appui.setImageUrl(list1);
-                    appui.update(getApplicationContext(), upLoadImg.getId(), new UpdateListener() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(getApplicationContext(), "update success", Toast.LENGTH_LONG).show();
-                        }
+                    //实际上，测试表明，它这里是一个for循环。。
+                    // 实际上还是一个个上传，上传多少个东西，这里就循环多少次，list.size单调递增+1
+                    //所以。。自己再传变量再判断
+                    if (testsize[0] == list.size()) {
+                        //do something
+                        baseAPPUI appui = new baseAPPUI(LostFind);
+                        appui.setImageUrl(list1);
+                        appui.update(getApplicationContext(), upLoadImg.getId(), new UpdateListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(getApplicationContext(), "update success", Toast.LENGTH_LONG).show();
+                                //                            FileUtils.delete(dir);
+                            }
 
-                        @Override
-                        public void onFailure(int i, String s) {
-                            Toast.makeText(getApplicationContext(), "update fail"+s, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    //                    SendFlag |= (0x01 << 0);
-
+                            @Override
+                            public void onFailure(int i, String s) {
+                                Toast.makeText(getApplicationContext(), "update fail" + s, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
                 }
 
             }
@@ -370,7 +343,6 @@ public class LostFindAddContentActivity extends AppCompatActivity {
 
             @Override
             public void onError(int i, String s) {
-                SendFlag &= (~(0x01 << 0));
             }
         });
 
@@ -390,7 +362,7 @@ public class LostFindAddContentActivity extends AppCompatActivity {
 
             jyuUser = BmobUser.getCurrentUser(LostFindAddContentActivity.this, JyuUser.class);
             List<Map<baseAPPUI.Contact_Type, String>> contact_list = new ArrayList<>();
-            final String[] paths = list.toArray(new String[list.size()]);
+            final String[] paths = ImgListDataSource.toArray(new String[ImgListDataSource.size()]);
 
             if (jyuUser != null) {
                 SendFlag |= (0x01 << 1);
@@ -443,7 +415,7 @@ public class LostFindAddContentActivity extends AppCompatActivity {
                 SendFlag &= (~(0x01 << 4));
             }
             if (paths != null) {
-                LostFindFunction.setImageUrl(list);
+                //                LostFindFunction.setImageUrl(ImgListDataSource);这是错的
                 SendFlag |= (0x01 << 5);
             } else {
                 SendFlag &= (~(0x01 << 5));
@@ -467,45 +439,6 @@ public class LostFindAddContentActivity extends AppCompatActivity {
             } else {
                 SendFlag = 0x00;
             }
-
-/*
-            new AsyncTask<String[], Float, Void>() {
-
-                @Override
-                protected Void doInBackground(String[]... params) {
-                    String[] paths = params[0];
-                    //                    for (String str:paths){
-                    //                    }
-                    Bitmap bitmap = null;
-                    boolean COVflag = false;
-                    FileOutputStream fos = null;
-                    for (String str : paths) {
-                        try {
-                            bitmap = BitmapFactory.decodeFile(str);
-                            fos = new FileOutputStream(new File(str));
-                            COVflag = bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fos);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                fos.flush();
-                                fos.close();
-                                if (COVflag && bitmap != null) {
-                                    bitmap.recycle();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-
-                    return null;
-                }
-
-            }.execute(paths);
-*/
-
             return true;
         }
 
